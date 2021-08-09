@@ -14,7 +14,7 @@ const { Meta } = Card;
 const { Ribbon } = Badge;
 
 const ConnectNav = () => {
-  const [setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [balance, setBalance] = useState(0);
   const { auth } = useSelector((state) => ({ ...state }));
   const { user, token } = auth;
@@ -65,7 +65,7 @@ const ConnectNav = () => {
           </Ribbon>
           <Ribbon text="Payouts" color="silver">
             <Card onClick={handlePayoutSettings} className="bg-light pointer">
-              <SettingOutlined className="h5 pt-2" />
+              <SettingOutlined className="h5 pt-2" disabled={loading} />
             </Card>
           </Ribbon>
         </>
