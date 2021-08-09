@@ -4,14 +4,14 @@ import moment from "moment";
 
 const { Option } = Select;
 
-const HotelCreateForm = ({
+const HotelEditForm = ({
   values,
   setValues,
   handleChange,
   handleImageChange,
   handleSubmit,
 }) => {
-  const { title, content, price } = values;
+  const { title, content, price, location, bed, from, to } = values;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -43,7 +43,9 @@ const HotelCreateForm = ({
           className="form-control m-2"
           value={content}
         />
-        <AutoCompleteSearch values={values} setValues={setValues} />
+        {location && location.length && (
+          <AutoCompleteSearch values={values} setValues={setValues} />
+        )}
 
         <input
           type="number"
@@ -59,6 +61,7 @@ const HotelCreateForm = ({
           className="w-100 m-2"
           size="large"
           placeholder="Number of beds"
+          value={bed}
         >
           <Option key={1}>{1}</Option>
           <Option key={2}>{2}</Option>
@@ -67,30 +70,36 @@ const HotelCreateForm = ({
         </Select>
       </div>
 
-      <DatePicker
-        placeholder="From date"
-        className="form-control m-2"
-        onChange={(date, dateString) =>
-          setValues({ ...values, from: dateString })
-        }
-        disabledDate={(current) =>
-          current && current.valueOf() < moment().subtract(1, "days")
-        }
-      />
+      {from && (
+        <DatePicker
+          defaultValue={moment(from, "YYYY-MM-DD")}
+          placeholder="From date"
+          className="form-control m-2"
+          onChange={(date, dateString) =>
+            setValues({ ...values, from: dateString })
+          }
+          disabledDate={(current) =>
+            current && current.valueOf() < moment().subtract(1, "days")
+          }
+        />
+      )}
 
-      <DatePicker
-        placeholder="To date"
-        className="form-control m-2"
-        onChange={(date, dateString) =>
-          setValues({ ...values, to: dateString })
-        }
-        disabledDate={(current) =>
-          current && current.valueOf() < moment().subtract(1, "days")
-        }
-      />
+      {to && (
+        <DatePicker
+          defaultValue={moment(to, "YYYY-MM-DD")}
+          placeholder="To date"
+          className="form-control m-2"
+          onChange={(date, dateString) =>
+            setValues({ ...values, to: dateString })
+          }
+          disabledDate={(current) =>
+            current && current.valueOf() < moment().subtract(1, "days")
+          }
+        />
+      )}
       <button className="btn btn-outline-primary m-2">Save</button>
     </form>
   );
 };
 
-export default HotelCreateForm;
+export default HotelEditForm;

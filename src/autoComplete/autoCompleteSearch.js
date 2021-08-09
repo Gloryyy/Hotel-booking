@@ -1,25 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import PlacesAutocomplete from "react-places-autocomplete";
 import scriptLoader from "react-async-script-loader";
 
-const AutoCompleteSearch = ({ isScriptLoaded, isScriptLoadSucceed }) => {
-  const [address, setAddress] = useState("");
-
-  const handleChange = (value) => {
-    setAddress(value);
-  };
-
-  const handleSelect = (value) => {
-    setAddress(value);
-  };
+const AutoCompleteSearch = ({
+  isScriptLoaded,
+  isScriptLoadSucceed,
+  values,
+  setValues,
+}) => {
+  const { location } = values;
 
   if (isScriptLoaded && isScriptLoadSucceed) {
     return (
       <div>
         <PlacesAutocomplete
-          value={address}
-          onChange={handleChange}
-          onSelect={handleSelect}
+          value={location}
+          name="location"
+          onChange={(value) => setValues({ ...values, location: value })}
+          onSelect={(value) => setValues({ ...values, location: value })}
         >
           {({
             getInputProps,
